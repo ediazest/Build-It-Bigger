@@ -1,22 +1,18 @@
-package com.udacity.gradle.builditbigger;
+package com.development.edu.jokescreen;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.development.edu.jokescreen.JokeActivity;
-import com.example.JokeProvider;
+public class JokeActivity extends AppCompatActivity {
 
-
-public class MainActivity extends ActionBarActivity {
+    public final static String INTENT_EXTRA_JOKE = "JokeExtra";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_joke);
     }
 
 
@@ -41,16 +37,4 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void tellJoke(View view) {
-        JokeProvider jokeProvider = new JokeProvider();
-        Intent jokeScreenIntent = new Intent(this, JokeActivity.class);
-        jokeScreenIntent.putExtra(JokeActivity.INTENT_EXTRA_JOKE, jokeProvider.getJoke());
-
-        startActivity(jokeScreenIntent);
-
-//        Toast.makeText(this, jokeProvider.getJoke(), Toast.LENGTH_SHORT).show();
-    }
-
-
 }
