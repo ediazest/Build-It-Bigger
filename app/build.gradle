@@ -37,4 +37,5 @@ dependencies {
     compile project(':jokescreen')
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile project(path: ':JokeTellerBackend', configuration: 'android-endpoints')
+    testCompile 'junit:junit:4.12'
 }
