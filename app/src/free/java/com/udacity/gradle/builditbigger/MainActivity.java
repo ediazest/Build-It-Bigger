@@ -8,14 +8,33 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.development.edu.jokescreen.JokeActivity;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                requestJokeScreen();
+            }
+        });
+
+        requestNewInterstitial();
+
     }
 
 
@@ -42,6 +61,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view) {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            requestJokeScreen();
+        }
+    }
+
+    private void requestJokeScreen() {
         JokeEndpointsAsyncTask jokeEndpointsAsyncTask = new JokeEndpointsAsyncTask(this, new OnJokeDownloadListener() {
             @Override
             public void onJokeDownloaded(String joke) {
@@ -53,6 +80,14 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         jokeEndpointsAsyncTask.execute();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
 
