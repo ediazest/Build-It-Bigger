@@ -17,3 +17,20 @@ allprojects {
         jcenter()
     }
 }
+
+
+task runTestGCE(dependsOn: [":JokeTellerBackend:appengineRun", ":app:connectedAndroidTest", ":JokeTellerBackend:appengineStop"]) {
+    description "Testing GCE deployment and communication throught AsyncTask"
+
+    evaluationDependsOn ":JokeTellerBackend"
+
+    project(":JokeTellerBackend") {
+        appengine {
+            daemon true
+        }
+    }
+    doLast {
+        println "Test finished"
+    }
+
+}

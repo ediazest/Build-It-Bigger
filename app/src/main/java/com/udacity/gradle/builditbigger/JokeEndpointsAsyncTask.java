@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import com.example.edu.builditbigger.backend.myApi.MyApi;
@@ -15,14 +16,24 @@ import java.io.IOException;
  * Created by edu on 28/10/2015.
  */
 public class JokeEndpointsAsyncTask extends AsyncTask<Void, Void, String> {
-    protected Context mContext;
+    protected Activity mActivity;
     private MyApi myApiService = null;
     private OnJokeDownloadListener mJokeListener;
+    private ProgressDialog progressDialog;
 
-    public JokeEndpointsAsyncTask(Context context, OnJokeDownloadListener jokeListener) {
+    public JokeEndpointsAsyncTask(Activity activity, OnJokeDownloadListener jokeListener) {
         super();
-        this.mContext = context;
+        this.mActivity = activity;
         this.mJokeListener = jokeListener;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        // Create & Start Progress Dialog
+        progressDialog = new ProgressDialog(mActivity);
+        progressDialog.setMessage("Loading joke...");
+        progressDialog.show();
     }
 
     @Override
@@ -56,6 +67,8 @@ public class JokeEndpointsAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+
+        progressDialog.dismiss();
 
         mJokeListener.onJokeDownloaded(result);
 

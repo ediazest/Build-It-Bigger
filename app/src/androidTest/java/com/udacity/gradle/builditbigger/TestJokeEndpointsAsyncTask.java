@@ -1,19 +1,21 @@
 package com.udacity.gradle.builditbigger;
 
-import android.test.AndroidTestCase;
+import android.test.ActivityUnitTestCase;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by edu on 28/10/2015.
  */
-public class TestJokeEndpointsAsyncTask extends AndroidTestCase {
+public class TestJokeEndpointsAsyncTask extends ActivityUnitTestCase {
 
-    public static final String LOG_TAG = TestJokeEndpointsAsyncTask.class.getSimpleName();
+    public TestJokeEndpointsAsyncTask(Class activityClass) {
+        super(activityClass);
+    }
 
     public void testJokeTeller() {
 
-        JokeEndpointsAsyncTask jokeEndpointsAsyncTask = new JokeEndpointsAsyncTask(getContext(), new OnJokeDownloadListener() {
+        JokeEndpointsAsyncTask jokeEndpointsAsyncTask = new JokeEndpointsAsyncTask(getActivity(), new OnJokeDownloadListener() {
             @Override
             public void onJokeDownloaded(String joke) {
                 assertTrue("Joke is empty!", !joke.isEmpty());
